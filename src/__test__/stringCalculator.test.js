@@ -53,6 +53,11 @@ describe('StringCalculator', () => {
             ['1\n-2,-3', 'Negatives not allowed: -2,-3', 'should detect negatives with different delimiters'],
             ['//;\n-1;-2;3', 'Negatives not allowed: -1,-2', 'should detect negatives with custom delimiter'],
 
+            // Numbers greater than 1000 should be ignored
+            ['2,1001', 2, 'should ignore numbers greater than 1000'],
+            ['1001,2002,1000', 1000, 'should ignore multiple numbers greater than 1000'],
+            ['//;\n1;2;1001', 3, 'should ignore numbers greater than 1000 with custom delimiter'],
+
         ])('%s => %s (%s)', (input, expected, description) => {
             if (typeof expected === 'string') {
                 // Test cases that should throw errors

@@ -55,8 +55,10 @@ class StringCalculator {
             throw new Error(`Negatives not allowed: ${negatives.join(',')}`);
         }
         
-        // Sum all numbers in the array using reduce
-        return numberArray.reduce((sum, current) => sum + current, 0);
+        // Sum all numbers in the array, ignoring numbers greater than 1000
+        return numberArray
+            .filter(num => num <= 1000)
+            .reduce((sum, current) => sum + current, 0);
     }
 }
 
