@@ -42,5 +42,16 @@ describe('StringCalculator', () => {
                 expect(() => calculator.add(input)).toThrow('Input must be a string');
             });
         });
+
+        /**
+         * Test cases for Step 2: Return number itself for single number input
+         * Verifies that the add method returns the number itself when only one number is provided
+         */
+        test('should return the number itself when single number is provided', () => {
+            expect(calculator.add('2')).toBe(2);
+            expect(calculator.add('7')).toBe(7);
+            expect(calculator.add('36')).toBe(36);
+            expect(calculator.add('0')).toBe(0);
+        });
     });
 }); 
