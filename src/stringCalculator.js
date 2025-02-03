@@ -33,8 +33,14 @@ class StringCalculator {
         // Check for custom delimiter
         if (numbers.startsWith('//')) {
             const firstNewLine = numbers.indexOf('\n');
-            const customDelimiter = numbers.substring(2, firstNewLine);
-            // Escape special regex characters if present in customDelimiter
+            let customDelimiter = numbers.substring(2, firstNewLine);
+            
+            // Handle multi-character delimiter
+            if (customDelimiter.startsWith('[') && customDelimiter.endsWith(']')) {
+                customDelimiter = customDelimiter.slice(1, -1); // Remove brackets
+            }
+            
+            // Escape special regex characters
             delimiter = customDelimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             numbersToProcess = numbers.substring(firstNewLine + 1);
 
