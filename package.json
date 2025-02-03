@@ -1,10 +1,12 @@
 {
-  "name": "string-calculator-tdd-kata-v2",
+  "name": "string-calculator-tdd-kata",
   "version": "1.0.0",
-  "description": "",
+  "description": "String Calculator TDD Kata",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "test:coverage": "jest --coverage",
+    "test:coverage:watch": "jest --coverage --watchAll"
   },
   "keywords": [],
   "author": "",
