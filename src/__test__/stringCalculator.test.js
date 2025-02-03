@@ -53,5 +53,16 @@ describe('StringCalculator', () => {
             expect(calculator.add('36')).toBe(36);
             expect(calculator.add('0')).toBe(0);
         });
+
+        /**
+         * Test cases return sum of two numbers
+         * Verifies that the add method correctly sums two comma-separated numbers
+         */
+        test('should return sum when two numbers are provided', () => {
+            expect(calculator.add('1,2')).toBe(3);
+            expect(calculator.add('5,7')).toBe(12);
+            expect(calculator.add('10,20')).toBe(30);
+            expect(calculator.add('0,0')).toBe(0);
+        });
     });
 }); 
