@@ -70,6 +70,13 @@ describe('StringCalculator', () => {
             ['//[*][%]\n1001*2%3', 5, 'should ignore numbers > 1000 with multiple delimiters'],
             ['//[*][%]\n-1*2%-3', 'Negatives not allowed: -1,-3', 'should handle negatives with multiple delimiters'],
 
+            // Multiple multi-char delimiters cases
+            ['//[sep][***]\n1sep2***3', 6, 'should support word and symbol delimiters'],
+            ['//[**][%%]\n1001**2%%3', 5, 'should ignore numbers > 1000 with multi-char delimiters'],
+            ['//[*#*][%%#]\n-1*#*2%%#-3', 'Negatives not allowed: -1,-3', 'should handle negatives with multi-char delimiters'],
+            ['//[***][%%%]\n', 0, 'should return 0 for empty string with multi-char delimiters'],
+            ['//[*@*][%*%]\n1*@*2%*%3', 6, 'should handle multiple multi-char delimiters'],
+
         ])('%s => %s (%s)', (input, expected, description) => {
             if (typeof expected === 'string') {
                 // Test cases that should throw errors
