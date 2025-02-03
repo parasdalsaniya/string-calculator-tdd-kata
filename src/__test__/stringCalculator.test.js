@@ -87,5 +87,16 @@ describe('StringCalculator', () => {
             expect(calculator.add('0\n0,0')).toBe(0);
         });
 
+        /**
+         * Test cases for Support custom delimiters
+         * Verifies that the add method handles custom delimiters specified at the start
+         */
+        test('should support custom delimiters', () => {
+            expect(calculator.add('//;\n1;2')).toBe(3);
+            expect(calculator.add('//.\n2.3.4')).toBe(9);
+            expect(calculator.add('//;\n')).toBe(0);
+            expect(calculator.add('//.\n1.2.3.0')).toBe(6);
+        });
+
     });
 }); 

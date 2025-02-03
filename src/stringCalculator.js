@@ -7,9 +7,14 @@ class StringCalculator {
     /**
      * Adds numbers provided in a string format
      * @param {string} numbers - The input string containing numbers to add
-     *                          (separated by commas or newlines)
+     *                          (separated by commas, newlines, or custom delimiter)
      * @returns {number} The sum of all numbers in the string, or 0 for empty string
      * @throws {Error} If the input is invalid
+     * @example
+     * add("") // returns 0
+     * add("1,2") // returns 3
+     * add("1\n2,3") // returns 6
+     * add("//;\n1;2") // returns 3
      */
     add(numbers) {
         // Input validation
@@ -22,13 +27,29 @@ class StringCalculator {
             return 0;
         }
 
-        // Split the string using regex to handle both comma and newline delimiters
-        const numberArray = numbers
-            .split(/[,\n]/)
+        let delimiter = '[,\n]';  // Default delimiters
+        let numbersToProcess = numbers;
+
+        // Check for custom delimiter
+        if (numbers.startsWith('//')) {
+            const firstNewLine = numbers.indexOf('\n');
+            const customDelimiter = numbers.substring(2, firstNewLine);
+            // Escape special regex characters if present in customDelimiter
+            delimiter = customDelimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            numbersToProcess = numbers.substring(firstNewLine + 1);
+
+            // Return 0 if no numbers after delimiter specification
+            if (numbersToProcess === '') {
+                return 0;
+            }
+        }
+
+        // Split the string using the determined delimiter
+        const numberArray = numbersToProcess
+            .split(new RegExp(delimiter))
             .map(num => parseInt(num, 10));
         
         // Sum all numbers in the array using reduce
-        // This works for any number of values and both types of delimiters
         return numberArray.reduce((sum, current) => sum + current, 0);
     }
 }
