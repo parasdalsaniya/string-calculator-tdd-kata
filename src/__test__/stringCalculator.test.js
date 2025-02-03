@@ -64,5 +64,17 @@ describe('StringCalculator', () => {
             expect(calculator.add('10,20')).toBe(30);
             expect(calculator.add('0,0')).toBe(0);
         });
+
+        /**
+         * Test cases for Support multiple numbers
+         * Verifies that the add method correctly sums multiple comma-separated numbers
+         */
+        test('should return sum when multiple numbers are provided', () => {
+            expect(calculator.add('1,2,3,0')).toBe(6);
+            expect(calculator.add('1,2,3,4,5,6,7,8,9,10')).toBe(55);
+            expect(calculator.add('0,0,0,0')).toBe(0);
+            expect(calculator.add('999,1')).toBe(1000);
+        });
+
     });
 }); 
