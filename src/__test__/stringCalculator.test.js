@@ -4,6 +4,7 @@
  */
 
 const StringCalculator = require('../stringCalculator');
+const { expect } = require('@jest/globals');
 
 describe('StringCalculator', () => {
     // Declare calculator instance at suite level
@@ -15,88 +16,46 @@ describe('StringCalculator', () => {
     });
 
     describe('add', () => {
-        /**
-         * Test case for return 0 for an empty string
-         * This is the most basic case of the string calculator
-         */
-        test('should return 0 for empty string', () => {
-            expect(calculator.add('')).toBe(0);
+        test.each([
+            // Basic cases - Empty string and single numbers
+            ['', 0, 'should return 0 for empty string'],
+            ['36', 36, 'should return number itself for single number'],
+            ['0', 0, 'should return 0 for single zero'],
+
+            // Two number addition cases
+            ['5,7', 12, 'should return sum for two numbers'],
+            ['0,0', 0, 'should return 0 for two zeros'],
+
+            // Multiple numbers addition cases
+            ['1,2,3,4,5,6,7,8,9,10', 55, 'should return sum for ten numbers'],
+            ['0,0,0,0', 0, 'should return 0 for multiple zeros'],
+
+            // Newline delimiter cases
+            ['1\n2,3', 6, 'should handle newline and comma as delimiters'],
+            ['1\n2\n3', 6, 'should handle multiple newlines as delimiters'],
+            ['0\n0,0', 0, 'should handle newline with zeros'],
+
+            // Custom delimiter cases
+            ['//.\n2.3.4', 9, 'should support dot as delimiter'],
+            ['//;\n', 0, 'should return 0 for empty string after delimiter'],
+            ['//.\n1.2.3.0', 6, 'should support custom delimiter with multiple numbers'],
+
+            // Invalid input errors
+            [123, 'Input must be a string', 'should throw error for number input'],
+            [null, 'Input must be a string', 'should throw error for null'],
+            [undefined, 'Input must be a string', 'should throw error for undefined'],
+            [{}, 'Input must be a string', 'should throw error for object'],
+            [[], 'Input must be a string', 'should throw error for array'],
+            [true, 'Input must be a string', 'should throw error for boolean'],
+
+        ])('%s => %s (%s)', (input, expected, description) => {
+            if (typeof expected === 'string') {
+                // Test cases that should throw errors
+                expect(() => calculator.add(input)).toThrow(expected);
+            } else {
+                // Test cases that should return values
+                expect(calculator.add(input)).toBe(expected);
+            }
         });
-
-        /**
-         * Test cases for input validation
-         * Verifies that the add method properly validates input types
-         */
-        test('should throw error for non-string input', () => {
-            // Test different types of invalid inputs
-            const invalidInputs = [
-                123,           // number
-                null,         // null
-                undefined,    // undefined
-                {},           // object
-                [],           // array
-                true,         // boolean
-            ];
-
-            invalidInputs.forEach(input => {
-                expect(() => calculator.add(input)).toThrow('Input must be a string');
-            });
-        });
-
-        /**
-         * Test cases for Step 2: Return number itself for single number input
-         * Verifies that the add method returns the number itself when only one number is provided
-         */
-        test('should return the number itself when single number is provided', () => {
-            expect(calculator.add('2')).toBe(2);
-            expect(calculator.add('7')).toBe(7);
-            expect(calculator.add('36')).toBe(36);
-            expect(calculator.add('0')).toBe(0);
-        });
-
-        /**
-         * Test cases return sum of two numbers
-         * Verifies that the add method correctly sums two comma-separated numbers
-         */
-        test('should return sum when two numbers are provided', () => {
-            expect(calculator.add('1,2')).toBe(3);
-            expect(calculator.add('5,7')).toBe(12);
-            expect(calculator.add('10,20')).toBe(30);
-            expect(calculator.add('0,0')).toBe(0);
-        });
-
-        /**
-         * Test cases for Support multiple numbers
-         * Verifies that the add method correctly sums multiple comma-separated numbers
-         */
-        test('should return sum when multiple numbers are provided', () => {
-            expect(calculator.add('1,2,3,0')).toBe(6);
-            expect(calculator.add('1,2,3,4,5,6,7,8,9,10')).toBe(55);
-            expect(calculator.add('0,0,0,0')).toBe(0);
-            expect(calculator.add('999,1')).toBe(1000);
-        });
-
-        /**
-         * Test cases for Step 5: Support newline as delimiter
-         * Verifies that the add method handles both comma and newline as delimiters
-         */
-        test('should handle newline as delimiter', () => {
-            expect(calculator.add('1\n2,3')).toBe(6);
-            expect(calculator.add('1,2\n3')).toBe(6);
-            expect(calculator.add('1\n2\n3')).toBe(6);
-            expect(calculator.add('0\n0,0')).toBe(0);
-        });
-
-        /**
-         * Test cases for Support custom delimiters
-         * Verifies that the add method handles custom delimiters specified at the start
-         */
-        test('should support custom delimiters', () => {
-            expect(calculator.add('//;\n1;2')).toBe(3);
-            expect(calculator.add('//.\n2.3.4')).toBe(9);
-            expect(calculator.add('//;\n')).toBe(0);
-            expect(calculator.add('//.\n1.2.3.0')).toBe(6);
-        });
-
     });
 }); 
