@@ -32,16 +32,25 @@ class StringCalculator {
 
         // Check for custom delimiter
         if (numbers.startsWith('//')) {
+
             const firstNewLine = numbers.indexOf('\n');
             let customDelimiter = numbers.substring(2, firstNewLine);
             
-            // Handle multi-character delimiter
+            // Handle multiple delimiters
             if (customDelimiter.startsWith('[') && customDelimiter.endsWith(']')) {
-                customDelimiter = customDelimiter.slice(1, -1); // Remove brackets
+
+                // Extract all delimiters between square brackets
+                const delimiters = customDelimiter.match(/\[(.*?)\]/g)
+                    .map(d => d.slice(1, -1)
+                    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+                delimiter = delimiters.join('|');
+
+            } else {
+
+                delimiter = customDelimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
             }
             
-            // Escape special regex characters
-            delimiter = customDelimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             numbersToProcess = numbers.substring(firstNewLine + 1);
 
             // Return 0 if no numbers after delimiter specification
