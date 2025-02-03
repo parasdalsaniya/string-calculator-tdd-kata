@@ -6,7 +6,8 @@
 class StringCalculator {
     /**
      * Adds numbers provided in a string format
-     * @param {string} numbers - The input string containing comma-separated numbers to add
+     * @param {string} numbers - The input string containing numbers to add
+     *                          (separated by commas or newlines)
      * @returns {number} The sum of all numbers in the string, or 0 for empty string
      * @throws {Error} If the input is invalid
      */
@@ -21,13 +22,13 @@ class StringCalculator {
             return 0;
         }
 
-        // Split the string by comma and convert each part to a number
+        // Split the string using regex to handle both comma and newline delimiters
         const numberArray = numbers
-            .split(',')
+            .split(/[,\n]/)
             .map(num => parseInt(num, 10));
         
         // Sum all numbers in the array using reduce
-        // This works for any number of values: single, pair, or multiple numbers
+        // This works for any number of values and both types of delimiters
         return numberArray.reduce((sum, current) => sum + current, 0);
     }
 }

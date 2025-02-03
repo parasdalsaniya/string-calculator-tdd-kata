@@ -76,5 +76,16 @@ describe('StringCalculator', () => {
             expect(calculator.add('999,1')).toBe(1000);
         });
 
+        /**
+         * Test cases for Step 5: Support newline as delimiter
+         * Verifies that the add method handles both comma and newline as delimiters
+         */
+        test('should handle newline as delimiter', () => {
+            expect(calculator.add('1\n2,3')).toBe(6);
+            expect(calculator.add('1,2\n3')).toBe(6);
+            expect(calculator.add('1\n2\n3')).toBe(6);
+            expect(calculator.add('0\n0,0')).toBe(0);
+        });
+
     });
 }); 
