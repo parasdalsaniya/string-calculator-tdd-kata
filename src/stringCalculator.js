@@ -49,6 +49,12 @@ class StringCalculator {
             .split(new RegExp(delimiter))
             .map(num => parseInt(num, 10));
         
+        // Check for negative numbers
+        const negatives = numberArray.filter(num => num < 0);
+        if (negatives.length > 0) {
+            throw new Error(`Negatives not allowed: ${negatives.join(',')}`);
+        }
+        
         // Sum all numbers in the array using reduce
         return numberArray.reduce((sum, current) => sum + current, 0);
     }

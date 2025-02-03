@@ -48,6 +48,11 @@ describe('StringCalculator', () => {
             [[], 'Input must be a string', 'should throw error for array'],
             [true, 'Input must be a string', 'should throw error for boolean'],
 
+            // Negative number cases
+            ['-1,2', 'Negatives not allowed: -1', 'should throw error for single negative number'],
+            ['1\n-2,-3', 'Negatives not allowed: -2,-3', 'should detect negatives with different delimiters'],
+            ['//;\n-1;-2;3', 'Negatives not allowed: -1,-2', 'should detect negatives with custom delimiter'],
+
         ])('%s => %s (%s)', (input, expected, description) => {
             if (typeof expected === 'string') {
                 // Test cases that should throw errors
